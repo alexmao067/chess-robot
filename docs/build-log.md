@@ -1,0 +1,2 @@
+#10/27/26
+#want square size to be double diameter of pieces to make room for movement. With normal 3cm diameter chess pieces board area will be bigger than any xy gantry can handle. Might have to 3d print chess pieces? Planning on doing a prototype test with hall sensor and magnets. 
