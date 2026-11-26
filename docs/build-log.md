@@ -15,3 +15,9 @@
 
 #11/23/26
 #I finally started writing some code for the raspberry pi i bought. I looked at some youtube tutorials of other people lighting up LEDS and adapted their circuits to my sensor. Just had to add an extra jumper for the output signal.Now i can see the change in voltage of the sensor without having to put a multimeter on it! The raspberry pi i am using only has 3 analog inputs. I need to connect 64 sensors. Will figure out later. 
+
+#11/24/26
+#I tested the new bigger magnets i bought with my new rapsberry pi system. It is a lot easier. I just need to stick the magnet near the sensor and look at the reading on the computer. Also even though the output voltage is a lot smaller than with the 5V from the computer, the difference when i put the magnet near the sensor is a lot more noticeable. 
+
+#11/25/26
+i wrote FakeSensorBoard.py, demo.py, and game.py. FakeSensorBoard is a placeholder until i connect the real pico board to my computer. demo.py is to check to see if the functions i wrote in chessrobot.py were working. game.py is where the actual game is going to run. Right now i am using FakeSensorBoard to replace the real sensorboard. 

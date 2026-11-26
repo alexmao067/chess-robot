@@ -3,9 +3,6 @@ import chess.engine
 
 STOCKFISH_PATH = r"C:\Users\alexm\Downloads\progaming\stockfish - Copy\stockfish-windows-x86-64-universal.exe"
 
-engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
-
-board = chess.Board()
 
 #infers what move was played based on what the sensors see. 
 def infer_move(board, sense_occupancy):# sensed occupancy is a 64 bit integer representing the current board state. bit 0 = a1, bit 64 = h8
@@ -72,42 +69,47 @@ def parse_sensor_message(line):
     return (sense_occupancy, last_placed)
 
 #stock fish game loop
-try:
-    while True:
-        color = input("Enter your color (w/b): ")
-        if color.lower() == 'w':
-            color = chess.WHITE
-            break
-        elif color.lower() == 'b':
-            color = chess.BLACK
-            break
-        else:
-            print("Invalid color, please enter 'w' or 'b'.")
-        
-    print(board)
-    while not board.is_game_over():
-        if board.turn == color:
-            player_move = input("Enter your move (e.g., e2e4): ")
-            try:    
-                board.push_uci(player_move)
-            except ValueError:
-                print("Invalid move, please try again.")
-                continue
-            print(board)
-        else:
-            result = engine.play(board, chess.engine.Limit(time = 1))
-            board.push_uci(str(result.move))
-            print('Stockfish move:', result.move)
-            print(board)
+def main():
+    board = chess.Board()
+    engine = chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
+    
+    try:
+        while True:
+            color = input("Enter your color (w/b): ")
+            if color.lower() == 'w':
+                color = chess.WHITE
+                break
+            elif color.lower() == 'b':
+                color = chess.BLACK
+                break
+            else:
+                print("Invalid color, please enter 'w' or 'b'.")
+            
+        print(board)
+        while not board.is_game_over():
+            if board.turn == color:
+                player_move = input("Enter your move (e.g., e2e4): ")
+                try:    
+                    board.push_uci(player_move)
+                except ValueError:
+                    print("Invalid move, please try again.")
+                    continue
+                print(board)
+            else:
+                result = engine.play(board, chess.engine.Limit(time = 1))
+                board.push_uci(str(result.move))
+                print('Stockfish move:', result.move)
+                print(board)
 
-        print(board.result())
-except KeyboardInterrupt:
-    pass
-finally:
-    after = board.copy()
-    move = chess.Move.from_uci('e2e4')
-    after.push(move)
-    line = f"M,{after.occupied:016X},{move.to_square}"
-    parse_sensor_message(line)
-    engine.quit()
+            print(board.result())
+    except KeyboardInterrupt:
+        pass
+    finally:
+        after = board.copy()
+        move = chess.Move.from_uci('e2e4')
+        after.push(move)
+        line = f"M,{after.occupied:016X},{move.to_square}"
+        engine.quit()
 
+if __name__ == "__main__":
+    main()
